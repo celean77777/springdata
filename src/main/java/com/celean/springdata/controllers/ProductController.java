@@ -2,6 +2,7 @@ package com.celean.springdata.controllers;
 
 import com.celean.springdata.models.Product;
 import com.celean.springdata.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +16,13 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> findAll(){
-        return productService.findAll();
+    public Page<Product> findAll(@RequestParam(name = "p", defaultValue = "1") int pageIndex) {
+        if (pageIndex < 1) {
+            pageIndex = 1;
+        }
+        return productService.findAll(pageIndex - 1, 10);
     }
+
 
     @GetMapping("/product/{id}")
     public Product findById(@PathVariable Long id){
