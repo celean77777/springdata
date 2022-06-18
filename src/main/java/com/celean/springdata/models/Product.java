@@ -1,9 +1,13 @@
 package com.celean.springdata.models;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
+
 public class Product {
 
     @Id
@@ -42,5 +46,10 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public Product(String title, int price){
+        this.title=title;
+        this.price=price;
     }
 }

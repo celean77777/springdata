@@ -15,7 +15,6 @@
 <body ng-app="market-front">
 <div class="container" ng-controller="appController">
     <h2>Главная страница</h2>
-<!--    <span ng-repeat="p in products"> {{p.id+' '+ p.title + ' '+ p.price +' '}} </span>-->
     <table class="table">
         <thead>
         <tr>
@@ -37,9 +36,45 @@
         </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary" ng-click="loadProducts()" >Update</button>
-    <button type="button" class="btn btn-primary" ng-click="previousPage()" >Previous</button>
-    <button type="button" class="btn btn-primary" ng-click="nextPage()" >Next</button>
+
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" aria-label="Previous" ng-click="prevPage()">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" ng-repeat="pageIndex in paginationArray">
+                <button class="page-link" ng-click="loadProducts(pageIndex)">{{pageIndex}}</button>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" aria-label="Next" ng-click="nextPage()">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <p></p>
+    <h3>Добавить продукт</h3>
+
+    <form novalidate ng-submit="createNewProduct()">
+        <div class="mb-3">
+            <label  class="form-label">Название</label>
+            <input type="text" class="form-control" placeholder="Название" ng-model="new_product.title">
+        </div>
+        <div class="mb-3">
+            <label  class="form-label">Цена</label>
+            <input type="text" class="form-control" placeholder="Цена" ng-model="new_product.price">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
 </div>
 </body>
 </html>

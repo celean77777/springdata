@@ -1,21 +1,27 @@
 package com.celean.springdata.controllers;
 
+
+import com.celean.springdata.exceptions.ResourceNotFoundException;
 import com.celean.springdata.models.Product;
 import com.celean.springdata.services.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+
 public class ProductController {
     private ProductService productService;
-
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping(value = "/products")
     public Page<Product> findAll(@RequestParam(name = "p", defaultValue = "1") int pageIndex) {
         if (pageIndex < 1) {
             pageIndex = 1;
@@ -26,19 +32,23 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public Product findById(@PathVariable Long id){
-        return productService.findById(id).orElse(null);
+        return productService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product id = "+ id +" not found"));
     }
 
-    @GetMapping("/products/delete/{id}")
+    @DeleteMapping("/products/delete/{id}")
     public void deleteProductById (@PathVariable Long id){
         productService.deleteProductById(id);
     }
 
     @PostMapping("/products")
-    public Product save(@ModelAttribute Product product){
+    public Product save(@RequestBody Product product){
         return productService.save(product);
     }
 
+    @PutMapping("/products")
+    public Product updateStudent(@RequestBody Product product) {
+        return productService.save(product);
+    }
 
 
     @GetMapping("/products/pricemin")

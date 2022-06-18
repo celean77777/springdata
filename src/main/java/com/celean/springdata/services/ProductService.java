@@ -2,24 +2,22 @@ package com.celean.springdata.services;
 
 import com.celean.springdata.models.Product;
 import com.celean.springdata.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
 @Service
 public class ProductService {
-    private ProductRepository productRepository;
-
+    private final ProductRepository productRepository;
+@Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-//    public List<Product> findAll(){
-//        return productRepository.findAll();
-//    }
 
     public Page<Product> findAll(int pageIndex, int pageSize){
         return productRepository.findAll(PageRequest.of(pageIndex, pageSize));
@@ -32,6 +30,8 @@ public class ProductService {
     public Product save(Product product){
         return productRepository.save(product);
     }
+
+
 
     public void deleteProductById (Long id){
         productRepository.deleteById(id);
